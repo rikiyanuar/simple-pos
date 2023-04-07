@@ -84,6 +84,24 @@ class _FormFoodScreenState extends State<FormFoodScreen> {
                       ),
                     ),
                   ),
+                  GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () => _delete(),
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        color: AppColors.red1,
+                        borderRadius: BorderRadius.all(Radius.circular(4)),
+                      ),
+                      height: 48,
+                      alignment: Alignment.center,
+                      width: double.infinity,
+                      margin: const EdgeInsets.symmetric(vertical: 16),
+                      child: const Text(
+                        "HAPUS",
+                        style: TextStyle(color: AppColors.white),
+                      ),
+                    ),
+                  ),
                 ]),
               ),
             ),
@@ -135,6 +153,20 @@ class _FormFoodScreenState extends State<FormFoodScreen> {
         content: Text(message),
         duration: const Duration(seconds: 3),
       ),
+    );
+  }
+
+  _delete() async {
+    final state = await _viewModel!.deleteFood();
+
+    state.when(
+      success: () {
+        _showMessage("Hapus data BERHASIL");
+        Navigator.pop(context);
+      },
+      clientError: () => _showMessage(AppConstants.clientError),
+      serverError: () => _showMessage(AppConstants.serverError),
+      networkError: () => _showMessage(AppConstants.networkError),
     );
   }
 }

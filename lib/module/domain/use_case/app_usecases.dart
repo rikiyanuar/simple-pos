@@ -2,6 +2,7 @@ import '../../external/libraries/dartz.dart';
 import '../entity/failure.dart';
 import '../entity/food_entity.dart';
 import '../repositories/app_repository.dart';
+import 'delete_food_use_case.dart';
 import 'get_food_use_case.dart';
 import 'insert_food_use_case.dart';
 import 'update_food_use_case.dart';
@@ -11,6 +12,7 @@ abstract class AppUseCase {
   Future<Either<Failure, List<FoodEntity>>> getFood();
   Future<Either<Failure, FoodEntity>> insertFood(FoodEntity food);
   Future<Either<Failure, FoodEntity>> updateFood(FoodEntity food);
+  Future<Either<Failure, FoodEntity>> deleteFood(FoodEntity food);
 }
 
 class AppUseCaseImpl extends AppUseCase {
@@ -35,6 +37,13 @@ class AppUseCaseImpl extends AppUseCase {
   @override
   Future<Either<Failure, FoodEntity>> updateFood(FoodEntity food) {
     final response = UpdateFoodUseCase(repository: repository);
+
+    return response(food);
+  }
+
+  @override
+  Future<Either<Failure, FoodEntity>> deleteFood(FoodEntity food) {
+    final response = DeleteFoodUseCase(repository: repository);
 
     return response(food);
   }

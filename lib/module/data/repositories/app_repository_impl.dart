@@ -54,4 +54,19 @@ class AppRepositoryImpl extends AppRepository {
       return Left(ClientFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, FoodEntity>> deleteFood(FoodEntity food) async {
+    try {
+      final response = await remoteDataSource.deleteFood(food);
+
+      return Right(response);
+    } on ServerErrorException catch (e) {
+      return Left(ServerFailure(message: e.message));
+    } on ClientErrorException catch (e) {
+      return Left(ClientFailure(message: e.message));
+    } catch (e) {
+      return Left(ClientFailure());
+    }
+  }
 }

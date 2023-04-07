@@ -5,6 +5,7 @@ abstract class AppRemoteDataSource {
   Future<List<FoodEntity>> getFood();
   Future<FoodEntity> insertFood(FoodEntity food);
   Future<FoodEntity> updateFood(FoodEntity food);
+  Future<FoodEntity> deleteFood(FoodEntity food);
 }
 
 class AppRemoteDataSourceImpl extends AppRemoteDataSource {
@@ -40,6 +41,13 @@ class AppRemoteDataSourceImpl extends AppRemoteDataSource {
       "$baseUrl${food.id}",
       data: food.toJson(),
     );
+
+    return FoodEntity.fromJson(response.data);
+  }
+
+  @override
+  Future<FoodEntity> deleteFood(FoodEntity food) async {
+    final response = await serviceHelper.delete("$baseUrl${food.id}");
 
     return FoodEntity.fromJson(response.data);
   }

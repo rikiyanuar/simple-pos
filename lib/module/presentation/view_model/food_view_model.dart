@@ -84,4 +84,21 @@ class FoodViewModel extends AppChangeNotifier {
       return const GeneralState.clientError();
     }
   }
+
+  Future<GeneralState> deleteFood() async {
+    try {
+      final state = await useCase.deleteFood(
+        FoodEntity.fromJson({"id": foodEntity!.id!}),
+      );
+
+      return state.fold(
+        (l) => const GeneralState.clientError(),
+        (data) {
+          return const GeneralState.success();
+        },
+      );
+    } catch (e) {
+      return const GeneralState.clientError();
+    }
+  }
 }
